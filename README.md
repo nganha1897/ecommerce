@@ -1,4 +1,4 @@
-# TechMart: An full-stack ecommerce web application built with Java and Spring Framework
+# TechMart: A full-stack ecommerce web application built with Java and Spring Framework
 
 ## Project Overview
 This application uses Java, Spring Boot framework, Bootstrap, and MySQL database to build an electronics ecommerce website.
@@ -9,13 +9,13 @@ The application is deployed to Heroku at: [https://ecommerce-shop-app-23b4e96149
 - Spring boot: 
   - Spring Data JPA and Hibernate framework to configure data access layer
   - Spring Security for authentication and authorization
-  - Spring OAuth to help users login with Google
+  - Spring OAuth to help users log in with Google
   - Spring Mail to send confirmation emails to users
 - MySQL: store app's data
 - Paypal API (sandbox): handle payment from users
 - JUnit, AssertJ, Mockito: unit test
 - Bootstrap, HTML, JQuery: build frontend
-- Amazon S3: store images from users and electronics
+- Amazon S3: store images from users and products
 
 ## Features
 
@@ -47,7 +47,6 @@ In the orders page, users can view the list of their previous orders and their d
 
 ### Backend
 
-#### User roles
 Only authorized role-based users can access the backend application. Admins have the right to manage everything including user information, product details, brand details, customer details, order details. Shippers can view products, view orders, and update order status. Salesperson can manage products and orders. Users can export data for users, categories, brands, products, and orders into CSV file. Users can filter data based on keywords such as names and ids. 
 
 ![Product Management image](EcommerceCommon/screenshots/product-manage.png)
