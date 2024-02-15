@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="content" th:remove="tag">
+		<th:block th:each="detail, status : ${order.orderDetails}">
+			<div class="row border rounded p-1" th:with="product = ${detail.product}">
+				<div class="col-sm-1">
+					<div class="div-count">[[${status.count}]]</div>
+				</div>
+				<div class="col-sm-3">
+					<img alt="Main image preview" class="img-fluid" th:src="@{${product.mainImagePath}}" />
+				</div>
+				<div class="col-sm-8">
+					<div>
+						<b>[[${product.name}]]</b>
+					</div>
+
+						<div>
+							[[${detail.quantity}]] X
+							<div th:replace="~{fragments :: format_currency(${detail.unitPrice})}" />
+							=
+							<div th:replace="~{fragments :: format_currency(${detail.subtotal})}" />
+						</div>
+
+				</div>
+			</div>
+		</th:block>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www/thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head th:replace="~{fragments :: page_head('Checkout', 'none')}">
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="~{navigation :: header_menu}"></div>
+		<div th:replace="~{navigation :: search_nav}"></div>
+
+		<div class="text-center border border-secondary rounded m-3 p-3">
+			<h2>Your order has been completed!</h2>
+			<h4>A confirmation email has been sent to you.</h4>
+			<h4>Kindly check your email for order details.</h4>
+		</div>
+
+	
+
+		<div th:replace="~{navigation :: footer_menu}"></div>
+	</div>
+
+</body>
+
+</html>

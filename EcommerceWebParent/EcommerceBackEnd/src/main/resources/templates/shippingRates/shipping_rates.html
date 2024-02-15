@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: page_head('ShippingRates - Ecommerce Admin', 'none')}">
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="~{navigation :: menu}"></div>
+
+		<div class="mb-2">
+			<h2>Manage Shipping Rates</h2>
+			<a th:href="@{/shippingRates/new}" class="fa-solid fa-plus fa-2xl icon-dark mr-2"></a>
+		</div>
+
+		<div th:replace="~{fragments :: search_form_and_message}"></div>
+
+		<div class="full-details">
+			<table class="table table-bordered table-striped table-hover table-responsive-xL">
+				<thead class="thead-dark">
+					<tr>
+						<th class="hideable-column">
+						<th th:replace="~{fragments :: column_link('id', 'ID', 'tag')}"></th>
+						</th>
+						<th th:replace="~{fragments :: column_link('country', 'Country', 'none')}"></th>
+						<th th:replace="~{fragments :: column_link('state', 'State', 'none')}"></th>
+						<th th:replace="~{fragments :: column_link('rate', 'Rate', 'none')}"></th>
+						<th th:replace="~{fragments :: column_link('days', 'Days', 'none')}"></th>
+						<th th:replace="~{fragments :: column_link('codSupported', 'COD Supported', 'none')}"></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="shippingRate : ${listShippingRates}">
+						<td class="hideable-column">[[${shippingRate.id}]]</td>
+						<td>[[${shippingRate.country.name}]]</td>
+						<td>[[${shippingRate.state}]]</td>
+						<td>[[${shippingRate.rate}]]</td>
+						<td>[[${shippingRate.days}]]</td>
+
+						<td>
+							<a th:if="${shippingRate.codSupported == true}"
+								class="fa-solid fa-hand-holding-dollar fa-2xl icon-green"
+								th:href="@{'/shippingRates/' + ${shippingRate.id} + '/enabled/false'}"
+								title="Disable this shipping rate">
+							</a>
+							<a th:if="${shippingRate.codSupported == false}"
+								class="fa-solid fa-hand-holding-dollar fa-2xl icon-dark"
+								th:href="@{'/shippingRates/' + ${shippingRate.id} + '/enabled/true'}"
+								title="Enable this shipping rate">
+							</a>
+						</td>
+
+						<td>
+							<div
+								th:replace="~{fragments :: edit('shippingRate', '/shippingRates/edit/' + ${shippingRate.id})}">
+							</div>
+							&nbsp;&nbsp;
+							<div
+								th:replace="~{fragments :: delete('shippingRate', ${shippingRate.id}, '/shippingRates/delete/' + ${shippingRate.id}, true)}">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="less-details">
+			<div th:each="shippingRate : ${listShippingRates}" class="row m-1">
+				<div class="col-4">
+					<div><b>[[${shippingRate.country.name}]]</b></div>
+					<div>[[${shippingRate.state}]]</div>
+				</div>
+				<div class="col-8">
+					<a th:if="${shippingRate.codSupported == true}"
+						class="fa-solid fa-hand-holding-dollar fa-2xl icon-green"
+						th:href="@{'/shippingRates/' + ${shippingRate.id} + '/enabled/false'}"
+						title="Disable this shipping rate">
+					</a>
+					<a th:if="${shippingRate.codSupported == false}"
+						class="fa-solid fa-hand-holding-dollar fa-2xl icon-dark"
+						th:href="@{'/shippingRates/' + ${shippingRate.id} + '/enabled/true'}"
+						title="Enable this shipping rate">
+					</a>
+
+					<div th:replace="~{fragments :: edit('shippingRate', '/shippingRates/edit/' + ${shippingRate.id})}">
+					</div>
+					&nbsp;&nbsp;
+					<div
+						th:replace="~{fragments :: delete('shippingRate', ${shippingRate.id}, '/shippingRates/delete/' + ${shippingRate.id}, true)}">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="~{fragments :: pagination('shipping rates')}"></div>
+
+		<div th:replace="~{modal_fragments :: delete_modal}"></div>
+		<div th:replace="~{fragments :: footer}"></div>
+	</div>
+
+	<script th:src="@{/js/common_list.js}"></script>
+
+	<script type="text/javascript">
+		moduleURL = "[[@{/shippingRates}]]";
+		$(document).ready(function () {
+			$(".link-delete").on("click", function (e) {
+				e.preventDefault();
+				showDeleteConfirmModal($(this), "shippingRate");
+			});
+		});
+
+	</script>
+
+</body>
+
+</html>

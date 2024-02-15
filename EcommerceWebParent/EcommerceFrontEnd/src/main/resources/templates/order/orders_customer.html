@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head th:replace="~{fragments :: page_head('Orders - Ecommerce', 'none')}">
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="~{navigation :: header_menu}"></div>
+		<div th:replace="~{navigation :: search_nav}"></div>
+
+		<div class="text-center">
+			<h2>My Orders</h2>
+		</div>
+
+		<div th:replace="~{fragments :: search_form_and_message}"></div>
+
+		<div class="full-details">
+			<table class="table table-bordered table-striped table-hover table-responsive-xL">
+				<thead class="thead-dark">
+					<tr>
+						<th th:replace="~{fragments :: column_link('id', 'ID', 'none')}"></th>
+						<th th:replace="~{fragments :: column_link('orderTime', 'Order Time', 'none')}"></th>
+						<th>Products</th>
+						<th th:replace="~{fragments :: column_link('total', 'Total', 'none')}"></th>
+						<th th:replace="~{fragments :: column_link('status', 'Status', 'none')}"></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="order : ${listOrders}">
+						<td>[[${order.id}]]</td>
+						<td>
+							<div th:replace="~{fragments :: format_time(${order.orderTime})}"></div>
+						</td>
+						<td>
+							<ul th:each="orderDetail : ${order.orderDetails}">
+								<li>[[${orderDetail.product.shortName}]]</li>
+							</ul>
+						</td>
+
+						<td>
+							<div th:replace="~{fragments :: format_currency(${order.total})}"></div>
+						</td>
+
+						<td><span th:class="'textOrderStatus' + ${order.id}">[[${order.status}]]</span></td>
+
+						<td>
+							<div th:replace="~{fragments :: view_details('order', '/orders/detail/' + ${order.id})}">
+							</div>
+							&nbsp;&nbsp;
+							<th:block th:if="${!order.returnRequested && order.delivered && !order.returned}">
+								<a class="fas fa-undo fa-2xl icon-dark linkReturnOrder" href="" 
+								th:classappend="'linkReturn' + ${order.id}" 
+								th:orderId="${order.id}"
+								title="Return this order"></a>
+							</th:block>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="less-details">
+			<div th:each="order : ${listOrders}" class="row m-1">
+				<div class="card">
+					<div class="card-header">
+						<div class="row">
+							<div class="col">
+								<span>Order ID #[[${order.id}]]</span>
+							</div>
+							<div class="col">
+								<div class="float-right">
+									<div
+										th:replace="~{fragments :: view_details('order', '/orders/detail/' + ${order.id})}">
+									</div>
+									&nbsp;&nbsp;
+									<th:block th:if="${!order.returnRequested && order.delivered && !order.returned}">
+										<a class="fas fa-undo fa-2xl icon-dark linkReturnOrder" href=""
+										th:classappend="'linkReturn' + ${order.id}" 
+										th:orderId="${order.id}"
+										title="Return this order"></a>
+									</th:block>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card-body">
+						<div>
+							<ul th:each="orderDetail : ${order.orderDetails}">
+								<li>[[${orderDetail.product.shortName}]]</li>
+							</ul>
+						</div>
+						<div>
+							<div th:replace="~{fragments :: format_currency(${order.total})}"></div>
+							<div class="float-right">
+								<span th:class="'textOrderStatus' + ${order.id}">[[${order.status}]]</span>
+							</div>
+						</div>
+
+						<div>
+							<div th:replace="~{fragments :: format_time(${order.orderTime})}"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="detailModal">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="~{fragments :: pagination('/orders', 'orders')}"></div>
+		<div th:replace="~{order/return_order_modal :: content}"></div>		
+		<div th:replace="~{navigation :: footer_menu}"></div>
+
+		<script type="text/javascript">
+			moduleURL = "[[@{/orders}]]";
+			contextPath = "[[@{/}]]";
+			var csrfHeaderName = "[[${_csrf.headerName}]]";
+			var csrfValue = "[[${_csrf.token}]]";
+			
+			$(document).ready(function () {
+				$(".link-detail").on("click", function (e) {
+					e.preventDefault();
+					linkDetailURL = $(this).attr("href");
+					$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
+				});
+			});
+			
+			function clearFilter() {
+				window.location = moduleURL;
+			}
+		</script>
+		<script type="text/javascript" th:src="@{/js/return_order.js}"></script>
+</body>
+
+</html>
